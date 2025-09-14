@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @ToString
-public class comment {
+public class Comment {
     private long commentId;
     private long postId;
     private long userId;

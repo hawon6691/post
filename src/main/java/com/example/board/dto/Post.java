@@ -1,5 +1,6 @@
 package com.example.board.dto;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,12 +12,13 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @ToString
-public class user {
+public class Post {
+    private long postId;
     private long userId;
-    private String username;
-    private String email;
-    private String password;
-    private String profile_image;
+    private String title;
+    private String content;
+    private int view_count;
+    private boolean is_public;
     private LocalDateTime created_at;
-    private LocalDateTime last_login;
+    private LocalDateTime updated_at;
 }

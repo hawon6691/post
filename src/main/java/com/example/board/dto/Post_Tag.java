@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class post_tag {
+public class Post_Tag {
     private long postId;
     private long tagId;
 

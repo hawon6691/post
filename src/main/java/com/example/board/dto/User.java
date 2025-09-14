@@ -11,9 +11,12 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @ToString
-public class like {
-    private long likeId;
-    private long postId;
+public class User {
     private long userId;
+    private String username;
+    private String email;
+    private String password;
+    private String profile_image;
     private LocalDateTime created_at;
+    private LocalDateTime last_login;
 }
