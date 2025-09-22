@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>목록</title>
+</head>
+<body>
+    <section class="post">
+        <div class="page-title">
+            <div class="container">
+                <h3>목록</h3>
+            </div>
+        </div>
+
+        <div class="login-info">
+            <div class="container">
+                <span class="login-info_user" th:if="${loginInfo != null}"><span th:text="${loginInfo.name}"></span></span>
+                <span class="login-info_logout" th:if="${loginInfo != null}"><a href="">로그아웃</a></span>
+                <span class="login-info_login" th:if="${loginInfo == null}"><a href="">로그인</a></span>
+                <span class="login-info_user" th:if="${loginInfo == null}"><a href="">회원가입</a></span>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
