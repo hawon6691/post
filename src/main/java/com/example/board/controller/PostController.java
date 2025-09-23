@@ -1,6 +1,6 @@
 package com.example.board.controller;
 
-import com.example.board.dto.LoginInfo;
+import com.example.board.dto.User_Role;
 import com.example.board.dto.Post;
 import com.example.board.service.PostService;
 import jakarta.servlet.http.HttpSession;
@@ -19,8 +19,8 @@ public class PostController {
 
     @GetMapping("/")
     public String PostList(@RequestParam(name = "page", defaultValue = "1") int page, HttpSession session, Model model) {
-        LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
-        model.addAttribute("loginInfo", loginInfo);
+        User_Role user_role = (User_Role)session.getAttribute("user_role");
+        model.addAttribute("user_role", user_role);
 
         int totalCount = postService.getTotalCount();
         List<Post> list = postService.getPosts(page);

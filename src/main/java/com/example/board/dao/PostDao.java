@@ -4,6 +4,7 @@ import com.example.board.dto.Post;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -27,7 +28,7 @@ public class PostDao {
     }
 
     @Transactional
-    public void addPost(long userId, String title, String content, boolean is_public) {
+    public Post addPost(long userId, String title, String content, boolean is_public) {
         Post post = new Post();
         post.setUserId(userId);
         post.setTitle(title);
@@ -38,6 +39,15 @@ public class PostDao {
 
         SqlParameterSource params = new BeanPropertySqlParameterSource(post);
         insertPost.execute(params);
+
+        return post;
+    }
+
+    @Transactional
+    public void mappingPostTag(long postId, long tagId) {
+        String sql = "insert into post_tag(post_id, tag_id) values(:postId,:tagId);";
+        SqlParameterSource params = new MapSqlParameterSource("postId", postId);
+        jdbcTemplate.update(sql, params);
     }
 
     @Transactional (readOnly = true)
@@ -50,7 +60,7 @@ public class PostDao {
     @Transactional (readOnly = true)
     public List<Post> getPosts(int page) {
         int start = (page - 1) * 10;
-        String sql = "select p.user_id, p.post_id, p.title, p.created_at, p.updated_at, p.view_count, u.username from post p, user u where p.user_id = u.user_id order by post_id desc limit :start, 10";
+        String sql = "select p.user_id, p.post_id, p.title, p.created_at, p.updated_at, p.view_count, u.name from post p, user u where p.user_id = u.user_id order by post_id desc limit :start, 10";
         RowMapper<Post> rowMapper = BeanPropertyRowMapper.newInstance(Post.class);
         List<Post> list = jdbcTemplate.query(sql, Map.of("start", start), rowMapper);
         return list;
@@ -58,7 +68,7 @@ public class PostDao {
 
     @Transactional (readOnly = true)
     public Post getPost(long postId) {
-        String sql = "select p.user_id, p.post_id, p.title, p.created_at, p.updated_at, p.view_count, u.username, p.content from post p, user u where p.user_id = u.user_id and p.post_id = :postId";
+        String sql = "select p.user_id, p.post_id, p.title, p.created_at, p.updated_at, p.view_count, u.name, p.content from post p, user u where p.user_id = u.user_id and p.post_id = :postId";
         RowMapper<Post> rowMapper = BeanPropertyRowMapper.newInstance(Post.class);
         Post post = jdbcTemplate.queryForObject(sql, Map.of("postId", postId), rowMapper);
         return post;

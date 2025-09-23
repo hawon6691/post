@@ -1,16 +1,24 @@
 package com.example.board.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
-@NoArgsConstructor
-@ToString
+@AllArgsConstructor
 public class Post_Tag {
     private long postId;
-    private long tagId;
+    private String name;
+    private List<String> tags = new ArrayList<>();
 
+    public Post_Tag(long postId,String name) {
+        this.postId = postId;
+        this.name = name;
+    }
+
+    public void addTags(String tagName) {
+        tags.add(tagName);
+    }
 }

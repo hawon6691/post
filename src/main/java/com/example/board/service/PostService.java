@@ -14,8 +14,10 @@ public class PostService {
     private final PostDao postDao;
 
     @Transactional
-    public void addPost(long userId, String title, String content, boolean is_public) {
-        postDao.addPost(userId, title, content, is_public);
+    public Post addPost(long userId, String title, String content, boolean is_public) {
+        Post post = postDao.addPost(userId, title, content, is_public);
+        postDao.mappingPostTag(post.getPostId(), 1);
+        return post;
     }
 
     @Transactional

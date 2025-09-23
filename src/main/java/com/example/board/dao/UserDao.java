@@ -29,13 +29,16 @@ public class UserDao {
     @Transactional
     public User addUser(String email, String name, String password) {
         User user = new User();
-        user.setUsername(name);
+        user.setName(name);
         user.setEmail(email);
         user.setPassword(password);
+
         SqlParameterSource params = new BeanPropertySqlParameterSource(user);
         Number number = insertUser.executeAndReturnKey(params);
+
         int userId = number.intValue();
         user.setUserId(userId);
+
         return user;
     }
 
@@ -49,7 +52,7 @@ public class UserDao {
     @Transactional
     public User getUser(String email) {
         try {
-            String sql = "select user_id, username, email, password, profile_image, created_at, last_login from user where email = :email";
+            String sql = "select user_id, name, email, password, profile_image, created_at, last_login from user where email = :email";
             SqlParameterSource params = new MapSqlParameterSource("email", email);
             RowMapper<User> rowMapper = BeanPropertyRowMapper.newInstance(User.class);
             User user = jdbcTemplate.queryForObject(sql, params, rowMapper);
