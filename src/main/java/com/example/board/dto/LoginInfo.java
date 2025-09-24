@@ -10,13 +10,13 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class User_Role {
-    private long userId;
+public class LoginInfo {
+    private int userId;
     private String email;
     private String name;
     private List<String> roles = new ArrayList<>();
 
-    public User_Role(long userId, String email, String name) {
+    public LoginInfo(int userId, String email, String name) {
         this.userId = userId;
         this.email = email;
         this.name = name;

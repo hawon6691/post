@@ -1,15 +1,13 @@
 package com.example.board.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-@Setter
 @Getter
-@NoArgsConstructor
-@ToString
+@Setter
+@AllArgsConstructor
 public class Tag {
-    private long tagId;
+    private int tagId;
     private String name;
 }

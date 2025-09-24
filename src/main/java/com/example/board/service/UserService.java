@@ -30,8 +30,8 @@ public class UserService {
         return userDao.getUser(email);
     }
 
-    @Transactional
-    public List<String> getRoles(long userId) {
+    @Transactional(readOnly = true)
+    public List<String> getRoles(int userId) {
         return userDao.getRoles(userId);
     }
 }

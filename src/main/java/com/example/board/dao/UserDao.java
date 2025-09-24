@@ -43,7 +43,7 @@ public class UserDao {
     }
 
     @Transactional
-    public void mappingUserRole(long userId) {
+    public void mappingUserRole(int userId) {
         String sql = "insert into user_role(user_id, role_id) values (:userId, 1);";
         SqlParameterSource params = new MapSqlParameterSource("userId", userId);
         jdbcTemplate.update(sql, params);
@@ -63,7 +63,7 @@ public class UserDao {
     }
 
     @Transactional
-    public List<String> getRoles(long userId) {
+    public List<String> getRoles(int userId) {
         String sql = "select r.name from user_role ur, role r where ur.role_id = r.role_id and ur.user_id = :userId";
         List<String> roles = jdbcTemplate.query(sql, Map.of("userId", userId), (rs, rowNum) -> {
             return rs.getString(1);

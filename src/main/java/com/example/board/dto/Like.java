@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class Like {
-    private long likeId;
-    private long postId;
-    private long userId;
+    private int likeId;
+    private int postId;
+    private int userId;
     private LocalDateTime created_at;
 }

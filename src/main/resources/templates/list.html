@@ -1,25 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>목록</title>
+    <title>게시판 목록보기</title>
+    <link rel="stylesheet" href="post.css">
 </head>
+
 <body>
     <section class="post">
         <div class="page-title">
             <div class="container">
-                <h3>목록</h3>
+                <h3>글 목록보기</h3>
             </div>
         </div>
 
         <div class="login-info">
             <div class="container">
-                <span class="login-info_user" th:if="${loginInfo != null}"><span th:text="${loginInfo.name}"></span></span>
-                <span class="login-info_logout" th:if="${loginInfo != null}"><a href="">로그아웃</a></span>
-                <span class="login-info_login" th:if="${loginInfo == null}"><a href="">로그인</a></span>
-                <span class="login-info_user" th:if="${loginInfo == null}"><a href="">회원가입</a></span>
+                <span class="login-info_user" th:if="${loginInfo != null}">
+                    <span th:text="${loginInfo.name}"></span>
+                </span>
+                <span class="login-info_logout" th:if="${loginInfo != null}">
+                    <a href="/logout">로그아웃</a>
+                </span>
+                <span class="login-info_login" th:if="${loginInfo == null}">
+                    <a href="/loginform">로그인</a>
+                </span>
+                <span class="login-info_join" th:if="${loginInfo == null}">
+                    <a href="/userRegForm">회원가입</a>
+                </span>
+            </div>
+        </div>
+
+        <!-- post list area -->
+        <div id="post-list">
+            <div class="container">
+                <table class="post-table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="th-num">번호</th>
+                            <th scope="col" class="th-title">제목</th>
+                            <th scope="col" class="th-viewCount">조회수</th>
+                            <th scope="col" class="th-name">작성자</th>
+                            <th scope="col" class="th-date">등록일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="post : ${list}">
+                            <td th:text="${post.postId}"></td>
+                            <th>
+                                <a th:href="@{post(postId=${post.postId})}" th:text="${post.title}"></a>
+                                <p>테스트</p>
+                            </th>
+                            <td th:text="${post.viewCount}"></td>
+                            <td th:text="${post.name}"></td>
+                            <td th:text="${post.regdate}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container">
+                <a href="/writeForm" th:if="${loginInfo != null}">글쓰기</a>
+                <span th:if="${loginInfo == null}">글쓰기</span>
+            </div>
+            <div class="container">
+                <span th:each="n : ${#numbers.sequence(1, pageCount)}"><a th:href="@{/(page=${n})}" th:text="${n}"></a></span>
             </div>
         </div>
     </section>
 </body>
+
 </html>

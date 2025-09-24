@@ -28,7 +28,7 @@ public class PostDao {
     }
 
     @Transactional
-    public Post addPost(long userId, String title, String content, boolean is_public) {
+    public void addPost(int userId, String title, String content, boolean is_public) {
         Post post = new Post();
         post.setUserId(userId);
         post.setTitle(title);
@@ -39,12 +39,10 @@ public class PostDao {
 
         SqlParameterSource params = new BeanPropertySqlParameterSource(post);
         insertPost.execute(params);
-
-        return post;
     }
 
     @Transactional
-    public void mappingPostTag(long postId, long tagId) {
+    public void mappingPostTag(int postId, long tagId) {
         String sql = "insert into post_tag(post_id, tag_id) values(:postId,:tagId);";
         SqlParameterSource params = new MapSqlParameterSource("postId", postId);
         jdbcTemplate.update(sql, params);
@@ -67,7 +65,7 @@ public class PostDao {
     }
 
     @Transactional (readOnly = true)
-    public Post getPost(long postId) {
+    public Post getPost(int postId) {
         String sql = "select p.user_id, p.post_id, p.title, p.created_at, p.updated_at, p.view_count, u.name, p.content from post p, user u where p.user_id = u.user_id and p.post_id = :postId";
         RowMapper<Post> rowMapper = BeanPropertyRowMapper.newInstance(Post.class);
         Post post = jdbcTemplate.queryForObject(sql, Map.of("postId", postId), rowMapper);
@@ -75,19 +73,19 @@ public class PostDao {
     }
 
     @Transactional
-    public void updateViewCount(long postId) {
+    public void updateViewCount(int postId) {
         String sql = "update post set view_count = view_count + 1 where post_id = :postId";
         jdbcTemplate.update(sql, Map.of("postId", postId));
     }
 
     @Transactional
-    public void deletePost(long postId) {
+    public void deletePost(int postId) {
         String sql = "delete from post where post_id - :postId";
         jdbcTemplate.update(sql, Map.of("postId", postId));
     }
 
     @Transactional
-    public void updatePost(long postId, String title, String content, boolean is_public) {
+    public void updatePost(int postId, String title, String content, boolean is_public) {
         String sql = "update post set title = :title, content = :content, is_public = :is_public where post_id = :postId";
 
         Post post = new Post();

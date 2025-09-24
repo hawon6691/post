@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class Post {
-    private long postId;
-    private long userId;
+    private int postId;
+    private int userId;
     private String title;
     private String content;
     private int view_count;

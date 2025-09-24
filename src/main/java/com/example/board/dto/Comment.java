@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class Comment {
-    private long commentId;
-    private long postId;
-    private long userId;
+    private int commentId;
+    private int postId;
+    private int userId;
     private String content;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
