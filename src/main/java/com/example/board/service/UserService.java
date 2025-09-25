@@ -20,7 +20,7 @@ public class UserService {
             throw new RuntimeException("이미 가입된 이메일입니다.");
         }
 
-        User user = userDao.addUser(email, name, password);
+        User user = userDao.addUser(name, email, password);
         userDao.mappingUserRole(user.getUserId());
         return user;
     }

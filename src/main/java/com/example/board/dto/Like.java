@@ -15,5 +15,4 @@ public class Like {
     private int likeId;
     private int postId;
     private int userId;
-    private LocalDateTime created_at;
 }

@@ -14,8 +14,14 @@ public class PostService {
     private final PostDao postDao;
 
     @Transactional
-    public void addPost(int userId, String title, String content, boolean is_public) {
+    public void addPost(int userId, String title, String content, boolean is_public, List<Integer> tagIds) {
         postDao.addPost(userId, title, content, is_public);
+
+        int postId = postDao.getLastInsertId();
+
+        for(int tagId : tagIds) {
+            postDao.mappingPostTag(postId, tagId);
+        }
     }
 
     @Transactional(readOnly = true)

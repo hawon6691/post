@@ -39,18 +39,18 @@ public class PostController {
         return "list";
     }
 
-    @GetMapping("/post")
-    public String post(@RequestParam("postId") int postId, HttpSession httpSession, Model model) {
-        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
-        model.addAttribute("loginInfo", loginInfo);
-
-        System.out.println("postId : " + postId);
-
-        Post post = postService.getPost(postId);
-        model.addAttribute("post", post);
-
-        return "post";
-    }
+//    @GetMapping("/post")
+//    public String post(@RequestParam("postId") int postId, HttpSession httpSession, Model model) {
+//        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
+//        model.addAttribute("loginInfo", loginInfo);
+//
+//        System.out.println("postId : " + postId);
+//
+//        Post post = postService.getPost(postId);
+//        model.addAttribute("post", post);
+//
+//        return "post";
+//    }
 
     private String loginCheck(HttpSession httpSession) {
         LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
@@ -60,74 +60,74 @@ public class PostController {
         return null;
     }
 
-    @GetMapping("/writeForm")
-    public String writeForm(HttpSession httpSession, Model model) {
-        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
-        if(loginInfo == null) {
-            return "redirect:/loginform";
-        }
+//    @GetMapping("/writeForm")
+//    public String writeForm(HttpSession httpSession, Model model) {
+//        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
+//        if(loginInfo == null) {
+//            return "redirect:/loginform";
+//        }
+//
+////        return loginCheck(httpSession);
+//
+//        model.addAttribute("loginInfo", loginInfo);
+//
+//        return "writeForm";
+//    }
 
-//        return loginCheck(httpSession);
+//    @PostMapping("/write")
+//    public String write(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("is_public") boolean is_public, HttpSession httpSession) {
+//        System.out.println("title : " + title);
+//        System.out.println("content : " + content);
+//
+//        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
+//        if(loginInfo == null) {
+//            return "redirect:/loginform";
+//        }
+//
+//        postService.addPost(loginInfo.getUserId(), title, content, is_public);
+//
+//        return "redirect:/";
+//    }
 
-        model.addAttribute("loginInfo", loginInfo);
+//    @GetMapping("/delete")
+//    public String delete(@RequestParam("postId") int postId, HttpSession httpSession) {
+//        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
+//        if(loginInfo == null) {
+//            return "redirect:/loginform";
+//        }
+//
+//        List<String> roles = loginInfo.getRoles();
+//        if(roles.contains("ROLE_ADMIN")) {
+//            postService.deletePost(postId);
+//        } else {
+//            postService.deletePost(loginInfo.getUserId(), postId);
+//        }
+//
+//        return "redirect:/";
+//    }
 
-        return "writeForm";
-    }
+//    @GetMapping("/updateform")
+//    public String updateform(@RequestParam("postId") int postId, Model model, HttpSession session) {
+//        LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
+//        if(loginInfo == null) return "redirect:/loginform";
+//
+//        Post post = postService.getPost(postId, false);
+//        model.addAttribute("post", post);
+//        model.addAttribute("loginInfo", loginInfo);
+//        return "updateform";
+//    }
 
-    @PostMapping("/write")
-    public String write(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("is_public") boolean is_public, HttpSession httpSession) {
-        System.out.println("title : " + title);
-        System.out.println("content : " + content);
-
-        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
-        if(loginInfo == null) {
-            return "redirect:/loginform";
-        }
-
-        postService.addPost(loginInfo.getUserId(), title, content, is_public);
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/delete")
-    public String delete(@RequestParam("postId") int postId, HttpSession httpSession) {
-        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
-        if(loginInfo == null) {
-            return "redirect:/loginform";
-        }
-
-        List<String> roles = loginInfo.getRoles();
-        if(roles.contains("ROLE_ADMIN")) {
-            postService.deletePost(postId);
-        } else {
-            postService.deletePost(loginInfo.getUserId(), postId);
-        }
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/updateform")
-    public String updateform(@RequestParam("postId") int postId, Model model, HttpSession session) {
-        LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
-        if(loginInfo == null) return "redirect:/loginform";
-
-        Post post = postService.getPost(postId, false);
-        model.addAttribute("post", post);
-        model.addAttribute("loginInfo", loginInfo);
-        return "updateform";
-    }
-
-    @PostMapping("/update")
-    public String update(@RequestParam("postId") int postId, @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("is_public") boolean is_public, HttpSession session) {
-        LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
-        if(loginInfo == null) return "redirect:/loginform";
-
-        Post post = postService.getPost(postId, false);
-        if(post.getUserId() != loginInfo.getUserId()) {
-            return "redirect:/board?boardId=" + postId;
-        }
-
-        postService.updatePost(postId, title, content, is_public);
-        return "redirect:/post?postId=" + postId;
-    }
+//    @PostMapping("/update")
+//    public String update(@RequestParam("postId") int postId, @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("is_public") boolean is_public, HttpSession session) {
+//        LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
+//        if(loginInfo == null) return "redirect:/loginform";
+//
+//        Post post = postService.getPost(postId, false);
+//        if(post.getUserId() != loginInfo.getUserId()) {
+//            return "redirect:/board?boardId=" + postId;
+//        }
+//
+//        postService.updatePost(postId, title, content, is_public);
+//        return "redirect:/post?postId=" + postId;
+//    }
 }

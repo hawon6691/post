@@ -16,6 +16,6 @@ public class Comment {
     private int postId;
     private int userId;
     private String content;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
