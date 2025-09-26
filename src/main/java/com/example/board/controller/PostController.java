@@ -52,13 +52,13 @@ public class PostController {
 //        return "post";
 //    }
 
-    private String loginCheck(HttpSession httpSession) {
-        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
-        if(loginInfo == null) {
-            return "redirect:/loginform";
-        }
-        return null;
-    }
+//    private String loginCheck(HttpSession httpSession) {
+//        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
+//        if(loginInfo == null) {
+//            return "redirect:/loginform";
+//        }
+//        return null;
+//    }
 
 //    @GetMapping("/writeForm")
 //    public String writeForm(HttpSession httpSession, Model model) {
