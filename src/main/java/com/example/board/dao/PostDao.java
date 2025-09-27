@@ -64,7 +64,7 @@ public class PostDao {
     }
 
     @Transactional
-    public void updateViewCnt(int postId) {
+    public void updateViewCount(int postId) {
         String sql = "update post set viewCount = viewCount + 1 where postId = :postId";
         jdbcTemplate.update(sql, Map.of("postId", postId));
     }

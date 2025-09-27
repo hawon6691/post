@@ -18,6 +18,7 @@ public class Post {
     private String title;
     private String content;
     private int viewCount;
+    private String name;
     private boolean isPublic;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
