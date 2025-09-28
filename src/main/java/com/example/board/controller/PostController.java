@@ -66,17 +66,18 @@ public class PostController {
     }
 
     @PostMapping("/write")
-    public String write(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("isPublic") Boolean isPublic, HttpSession session)
+    public String write(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("active") boolean active, HttpSession session)
     {
         System.out.println("title : " + title);
         System.out.println("content : " + content);
+        System.out.println("active : " + active);
 
         LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
         if(loginInfo == null) {
             return "redirect:/loginform";
         }
 
-        postService.addPost(loginInfo.getUserId(), title, content, isPublic);
+        postService.addPost(loginInfo.getUserId(), title, content, active);
 
         return "redirect:/";
     }
@@ -108,16 +109,20 @@ public class PostController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam("postId") int postId, @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam(value = "isPublic", required = false, defaultValue = "false") Boolean isPublic, HttpSession session) {
+    public String update(@RequestParam("postId") int postId, @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("active") boolean active, HttpSession session) {
         LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
         if(loginInfo == null) return "redirect:/loginform";
+
+        System.out.println("title : " + title);
+        System.out.println("content : " + content);
+        System.out.println("active : " + active);
 
         Post post = postService.getPost(postId, false);
         if(post.getUserId() != loginInfo.getUserId()) {
             return "redirect:/post?postId=" + postId;
         }
 
-        postService.updatePost(postId, title, content, isPublic);
+        postService.updatePost(postId, title, content, active);
         return "redirect:/post?postId=" + postId;
     }
 }

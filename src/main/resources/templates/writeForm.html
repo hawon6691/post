@@ -14,7 +14,14 @@
         제목 : <input type="text" name="title"><br>
         내용 : <br>
         <textarea name="content" cols="50" rows="5"></textarea><br>
-        공개 : <input type="checkbox" name="isPublic"><br>
+        공개 :
+        <label>
+            <input type="radio" name="active" value="true" checked> 공개
+        </label>
+        <label>
+            <input type="radio" name="active" value="false"> 비공개
+        </label>
+        <br>
         <input type="submit" value="등록"> <input type="button" value="HOME" onclick="location.href='/'">
     </form>
 </body>

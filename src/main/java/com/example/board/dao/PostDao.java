@@ -23,16 +23,16 @@ public class PostDao {
 
     public PostDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        insertPost = new SimpleJdbcInsert(dataSource).withTableName("post").usingGeneratedKeyColumns("post_id");
+        insertPost = new SimpleJdbcInsert(dataSource).withTableName("post").usingGeneratedKeyColumns("postId");
     }
 
     @Transactional
-    public void addPost(int userId, String title, String content, Boolean isPublic) {
+    public void addPost(int userId, String title, String content, boolean active) {
         Post post = new Post();
         post.setUserId(userId);
         post.setTitle(title);
         post.setContent(content);
-        post.setIsPublic(isPublic);
+        post.setActive(active);
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
         SqlParameterSource params = new BeanPropertySqlParameterSource(post);
@@ -49,7 +49,7 @@ public class PostDao {
     @Transactional(readOnly = true)
     public List<Post> getPosts(int page) {
         int start = (page - 1) * 10;
-        String sql = "select p.userId, p.postId, p.title, p.content, p.viewCount, p.isPublic, p.createdAt, p.updatedAt, p.viewCount, u.name from post p, user u where p.userId = u.userId order by postId desc limit :start, 10";
+        String sql = "select p.userId, p.postId, p.title, p.content, p.viewCount, p.active, p.createdAt, p.updatedAt, p.viewCount, u.name from post p, user u where p.userId = u.userId order by postId desc limit :start, 10";
         RowMapper<Post> rowMapper = BeanPropertyRowMapper.newInstance(Post.class);
         List<Post> list = jdbcTemplate.query(sql, Map.of("start", start), rowMapper);
         return list;
@@ -57,7 +57,7 @@ public class PostDao {
 
     @Transactional(readOnly = true)
     public Post getPost(int postId) {
-        String sql = "select p.userId, p.postId, p.title, p.content, p.viewCount, p.isPublic, p.createdAt, p.updatedAt, p.viewCount, u.name from post p, user u where p.userId = u.userId and p.postId = :postId";
+        String sql = "select p.userId, p.postId, p.title, p.content, p.viewCount, p.active, p.createdAt, p.updatedAt, p.viewCount, u.name from post p, user u where p.userId = u.userId and p.postId = :postId";
         RowMapper<Post> rowMapper = BeanPropertyRowMapper.newInstance(Post.class);
         Post post = jdbcTemplate.queryForObject(sql, Map.of("postId", postId), rowMapper);
         return post;
@@ -76,14 +76,14 @@ public class PostDao {
     }
 
     @Transactional
-    public void updatePost(int postId, String title, String content, Boolean isPublic) {
-        String sql = "update post set title = :title, content = :content, isPublic = :isPublic where postId = 1";
+    public void updatePost(int postId, String title, String content, boolean active) {
+        String sql = "update post set title = :title, content = :content, active = :active where postId = :postId";
 
         Post post = new Post();
         post.setPostId(postId);
         post.setTitle(title);
         post.setContent(content);
-        post.setIsPublic(isPublic);
+        post.setActive(active);
         SqlParameterSource params = new BeanPropertySqlParameterSource(post);
         jdbcTemplate.update(sql, params);
 

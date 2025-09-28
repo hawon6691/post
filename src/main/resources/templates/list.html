@@ -46,7 +46,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="post : ${list}" th:if="${post.isPublic == true} or ${loginInfo != null and loginInfo.userId == post.userId}">
+                        <tr th:each="post : ${list}" th:if="${post.active == true} or ${loginInfo != null and loginInfo.userId == post.userId}">
                             <td th:text="${post.postId}"></td>
                             <th>
                                 <a th:href="@{post(postId=${post.postId})}" th:text="${post.title}"></a>
