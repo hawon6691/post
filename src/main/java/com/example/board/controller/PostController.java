@@ -66,7 +66,7 @@ public class PostController {
     }
 
     @PostMapping("/write")
-    public String write(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("isPublic") boolean isPublic, HttpSession session)
+    public String write(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("isPublic") Boolean isPublic, HttpSession session)
     {
         System.out.println("title : " + title);
         System.out.println("content : " + content);
@@ -108,7 +108,7 @@ public class PostController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam("postId") int postId, @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("isPublic") boolean isPublic, HttpSession session) {
+    public String update(@RequestParam("postId") int postId, @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam(value = "isPublic", required = false, defaultValue = "false") Boolean isPublic, HttpSession session) {
         LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
         if(loginInfo == null) return "redirect:/loginform";
 

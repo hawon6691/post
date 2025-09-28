@@ -14,7 +14,7 @@ public class PostService {
     private final PostDao postDao;
 
     @Transactional
-    public void addPost(int userId, String title, String content, boolean isPublic) {
+    public void addPost(int userId, String title, String content, Boolean isPublic) {
         postDao.addPost(userId, title, content, isPublic);
     }
 
@@ -34,7 +34,7 @@ public class PostService {
     }
 
     @Transactional
-    public Post getPost(int boardId, boolean updateViewCount) {
+    public Post getPost(int boardId, Boolean updateViewCount) {
         Post post = postDao.getPost(boardId);
         if(updateViewCount) {
             postDao.updateViewCount(boardId);
@@ -56,7 +56,7 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(int boardId, String title, String content, boolean isPublic) {
+    public void updatePost(int boardId, String title, String content, Boolean isPublic) {
         postDao.updatePost(boardId, title, content, isPublic);
     }
 }

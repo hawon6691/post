@@ -46,11 +46,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="post : ${list}">
+                        <tr th:each="post : ${list}" th:if="${post.isPublic == true} or ${loginInfo != null and loginInfo.userId == post.userId}">
                             <td th:text="${post.postId}"></td>
                             <th>
                                 <a th:href="@{post(postId=${post.postId})}" th:text="${post.title}"></a>
-                                <p>테스트</p>
                             </th>
                             <td th:text="${post.viewCount}"></td>
                             <td th:text="${post.name}"></td>
@@ -61,7 +60,6 @@
             </div>
             <div class="container">
                 <a href="/writeForm" th:if="${loginInfo != null}">글쓰기</a>
-                <span th:if="${loginInfo == null}">글쓰기</span>
             </div>
             <div class="container">
                 <span th:each="n : ${#numbers.sequence(1, pageCount)}"><a th:href="@{/(page=${n})}" th:text="${n}"></a></span>

@@ -23,16 +23,16 @@ public class PostDao {
 
     public PostDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        insertPost = new SimpleJdbcInsert(dataSource) .withTableName("post").usingGeneratedKeyColumns("post_id");
+        insertPost = new SimpleJdbcInsert(dataSource).withTableName("post").usingGeneratedKeyColumns("post_id");
     }
 
     @Transactional
-    public void addPost(int userId, String title, String content, boolean isPublic) {
+    public void addPost(int userId, String title, String content, Boolean isPublic) {
         Post post = new Post();
         post.setUserId(userId);
         post.setTitle(title);
         post.setContent(content);
-        post.setPublic(isPublic);
+        post.setIsPublic(isPublic);
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
         SqlParameterSource params = new BeanPropertySqlParameterSource(post);
@@ -76,14 +76,14 @@ public class PostDao {
     }
 
     @Transactional
-    public void updatePost(int postId, String title, String content, boolean isPublic) {
+    public void updatePost(int postId, String title, String content, Boolean isPublic) {
         String sql = "update post set title = :title, content = :content, isPublic = :isPublic where postId = 1";
 
         Post post = new Post();
         post.setPostId(postId);
         post.setTitle(title);
         post.setContent(content);
-        post.setPublic(isPublic);
+        post.setIsPublic(isPublic);
         SqlParameterSource params = new BeanPropertySqlParameterSource(post);
         jdbcTemplate.update(sql, params);
 
