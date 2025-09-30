@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+</head>
+<body>
+    <h1>게시글 상세</h1>
+
+    <!-- 게시글 정보 -->
+    <h2 th:text="${post.title}"></h2>
+    <p>작성자: <span th:text="${post.userName}"></span></p>
+    <p th:text="${post.content}"></p>
+    <p>공개 여부: <span th:text="${post.active ? '공개' : '비공개'}"></span></p>
+
+    <hr>
+
+    <!-- 댓글 목록 -->
+    <h3>댓글</h3>
+    <div th:if="${#lists.isEmpty(comments)}">
+        아직 댓글이 없습니다.
+    </div>
+    <ul th:each="comment : ${comments}">
+        <li>
+            <b th:text="${comment.userName}"></b> :
+            <span th:text="${comment.content}"></span>
+            <small th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></small>
+        </li>
+    </ul>
+
+    <hr>
+
+    <!-- 댓글 작성 폼 -->
+    <h3>댓글 작성</h3>
+    <form action="/comment/add" method="post">
+        <input type="hidden" name="postId" th:value="${post.postId}">
+        <textarea name="content" cols="50" rows="3" placeholder="댓글을 입력하세요"></textarea><br>
+        <input type="submit" value="댓글 작성">
+    </form>
+
+    <br>
+    <input type="button" value="목록으로" onclick="location.href='/list'">
+</body>
+</html>
