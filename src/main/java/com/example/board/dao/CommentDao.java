@@ -53,6 +53,6 @@ public class CommentDao {
 
     @Transactional
     public void updateComment(int commentId, String content) {
-
+        Comment comment = new Comment();
     }
 }
