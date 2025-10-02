@@ -29,34 +29,34 @@ public class PostService {
     }
 
     @Transactional
-    public Post getPost(int boardId) {
-        return getPost(boardId, true);
+    public Post getPost(int postId) {
+        return getPost(postId, true);
     }
 
     @Transactional
-    public Post getPost(int boardId, boolean updateViewCount) {
-        Post post = postDao.getPost(boardId);
+    public Post getPost(int postId, boolean updateViewCount) {
+        Post post = postDao.getPost(postId);
         if(updateViewCount) {
-            postDao.updateViewCount(boardId);
+            postDao.updateViewCount(postId);
         }
         return post;
     }
 
     @Transactional
-    public void deletePost(int userId, int boardId) {
-        Post post = postDao.getPost(boardId);
+    public void deletePost(int userId, int postId) {
+        Post post = postDao.getPost(postId);
         if(post.getUserId() == userId) {
-            postDao.deletePost(boardId);
+            postDao.deletePost(postId);
         }
     }
 
     @Transactional
-    public void deletePost(int boardId) {
-        postDao.deletePost(boardId);
+    public void deletePost(int postId) {
+        postDao.deletePost(postId);
     }
 
     @Transactional
-    public void updatePost(int boardId, String title, String content, boolean active) {
-        postDao.updatePost(boardId, title, content, active);
+    public void updatePost(int postId, String title, String content, boolean active) {
+        postDao.updatePost(postId, title, content, active);
     }
 }
