@@ -27,6 +27,9 @@ public class CommentService {
     }
 
     @Transactional
+    public Comment getComment(int commentId) { return commentDao.getComment(commentId); }
+
+    @Transactional
     public void deleteComment(int commentId, int userId) {
         Comment comment = commentDao.getComment(commentId);
         if(comment.getUserId() == userId) {
