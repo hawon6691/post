@@ -28,9 +28,11 @@ public class CommentDao {
     }
 
     @Transactional
-    public void addComment(int commentId, String content) {
+    public void addComment(int postId, int userId, String content, Integer parentId) {
         Comment comment = new Comment();
-        comment.setCommentId(commentId);
+        comment.setPostId(postId);
+        comment.setUserId(userId);
+        comment.setParentId(parentId);
         comment.setContent(content);
         comment.setCreatedAt(LocalDateTime.now());
         comment.setUpdatedAt(LocalDateTime.now());
@@ -62,7 +64,7 @@ public class CommentDao {
 
     @Transactional
     public void updateComment(int commentId, String content) {
-        String sql = "update comment set content = :content, updateAt = now() where commentId = :commentId";
+        String sql = "update comment set content = :content, updatedAt = now() where commentId = :commentId";
         Comment comment = new Comment();
         comment.setCommentId(commentId);
         comment.setContent(content);
