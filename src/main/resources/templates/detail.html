@@ -9,7 +9,7 @@
 
     <!-- 게시글 정보 -->
     <h2 th:text="${post.title}"></h2>
-    <p>작성자: <span th:text="${post.userName}"></span></p>
+    <p>작성자: <span th:text="${post.name}"></span></p>
     <p th:text="${post.content}"></p>
     <p>공개 여부: <span th:text="${post.active ? '공개' : '비공개'}"></span></p>
 
@@ -22,7 +22,7 @@
     </div>
     <ul th:each="comment : ${comments}">
         <li>
-            <b th:text="${comment.userName}"></b> :
+            <b th:text="${comment.name}"></b> :
             <span th:text="${comment.content}"></span>
             <small th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></small>
         </li>

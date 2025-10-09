@@ -17,9 +17,7 @@ public class CommentService {
     private final CommentDao commentDao;
 
     @Transactional
-    public void addComment(int commentId, String content) {
-        commentDao.addComment(commentId, content);
-    }
+    public void addComment(int postId, int userId, String content, Integer parentId) { commentDao.addComment(postId, userId, content, parentId); }
 
     @Transactional(readOnly = true)
     public List<Comment> getComments(int postId) {
@@ -35,11 +33,6 @@ public class CommentService {
         if(comment.getUserId() == userId) {
             commentDao.deleteComment(commentId);
         }
-    }
-
-    @Transactional
-    public void deleteComment(int commentId) {
-        commentDao.deleteComment(commentId);
     }
 
     @Transactional
