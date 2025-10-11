@@ -1,7 +1,9 @@
 package com.example.board.controller;
 
+import com.example.board.dto.Comment;
 import com.example.board.dto.LoginInfo;
 import com.example.board.dto.Post;
+import com.example.board.service.CommentService;
 import com.example.board.service.PostService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final CommentService commentService;
 
     @GetMapping("/")
     public String list(@RequestParam(name = "page", defaultValue = "1") int page, HttpSession session, Model model) {
@@ -48,7 +51,9 @@ public class PostController {
         System.out.println("postId : " + postId);
 
         Post post = postService.getPost(postId);
+        List<Comment> commentList = commentService.getComments(postId);
         model.addAttribute("post", post);
+        model.addAttribute("commentList", commentList);
 
         return "post";
     }

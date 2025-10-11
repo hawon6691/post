@@ -18,11 +18,11 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
 
-    @GetMapping("/comments")
+    @GetMapping("/detail")
     public String getComments(@RequestParam("postId") int postId, Model model) {
-        List<Comment> list = commentService.getComments(postId);
-        model.addAttribute("comments", list);
-        return "fragments/commentList :: commentList";
+        List<Comment> commentlist = commentService.getComments(postId);
+        model.addAttribute("list", commentlist);
+        return "detail";
     }
 
     @PostMapping("/addComment")
