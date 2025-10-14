@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,9 +15,84 @@
     <div>내용 : <span th:text="${post.content}"></span></div>
 
     <div><a href="/">목록보기</a></div>
-    <div><a th:href="@{/detail(postId=${comment.postId})}">댓글보기</a></div>
+    <div><a th:href="@{/detail(postId=${post.postId})}">댓글보기</a></div>
     <div><a th:href="@{/updateform(postId=${post.postId})}" th:if="${(loginInfo != null) && (loginInfo.getUserId() == post.getUserId())}">수정하기</a></div>
     <div><a th:href="@{/delete(postId=${post.postId})}" th:if="${(loginInfo != null) && (loginInfo.getUserId() == post.getUserId())}">삭제하기</a></div>
+    
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시물 상세보기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .post-info {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .post-info div {
+            margin: 10px 0;
+        }
+        .actions {
+            margin-top: 30px;
+        }
+        .actions a {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .actions a:hover {
+            background-color: #45a049;
+        }
+        .content-box {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            min-height: 200px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1 th:text="${post.title}"></h1>
+    
+    <div class="post-info">
+        <div><strong>글쓴이:</strong> <span th:text="${post.name}"></span></div>
+        <div><strong>제목:</strong> <span th:text="${post.title}"></span></div>
+        <div><strong>조회수:</strong> <span th:text="${post.viewCount}"></span></div>
+        <div><strong>공개:</strong> <span th:text="${post.active ? '공개' : '비공개'}"></span></div>
+        <div><strong>작성일:</strong> <span th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></div>
+    </div>
+
+    <div class="content-box">
+        <strong>내용:</strong><br><br>
+        <div th:text="${post.content}"></div>
+    </div>
+
+    <div class="actions">
+        <a href="/">목록보기</a>
+        <a th:href="@{/detail(postId=${post.postId})}">댓글보기</a>
+        <a th:href="@{/updateform(postId=${post.postId})}" 
+           th:if="${(loginInfo != null) && (loginInfo.getUserId() == post.getUserId())}">수정하기</a>
+        <a th:href="@{/delete(postId=${post.postId})}" 
+           th:if="${(loginInfo != null) && (loginInfo.getUserId() == post.getUserId())}"
+           onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>
+    </div>
     
 </body>
 </html>

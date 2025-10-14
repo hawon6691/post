@@ -15,7 +15,7 @@ public class Comment {
     private int commentId;
     private int postId;
     private int userId;
-    private int parentId;
+    private Integer parentId;
     private String name;
     private String content;
     private LocalDateTime createdAt;

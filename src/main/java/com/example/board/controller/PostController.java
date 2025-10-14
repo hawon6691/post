@@ -64,7 +64,6 @@ public class PostController {
         if(loginInfo == null) {
             return "redirect:/loginform";
         }
-        
 
         model.addAttribute("loginInfo", loginInfo);
 
