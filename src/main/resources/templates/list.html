@@ -1,71 +1,411 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>게시판 목록보기</title>-->
+<!--    <link rel="stylesheet" href="post.css">-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <section class="post">-->
+<!--        <div class="page-title">-->
+<!--            <div class="container">-->
+<!--                <h3>글 목록보기</h3>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="login-info">-->
+<!--            <div class="container">-->
+<!--                <span class="login-info_user" th:if="${loginInfo != null}">-->
+<!--                    <span th:text="${loginInfo.name}"></span>-->
+<!--                </span>-->
+<!--                <span class="login-info_logout" th:if="${loginInfo != null}">-->
+<!--                    <a href="/logout">로그아웃</a>-->
+<!--                </span>-->
+<!--                <span class="login-info_login" th:if="${loginInfo == null}">-->
+<!--                    <a href="/loginform">로그인</a>-->
+<!--                </span>-->
+<!--                <span class="login-info_join" th:if="${loginInfo == null}">-->
+<!--                    <a href="/userRegForm">회원가입</a>-->
+<!--                </span>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; post list area &ndash;&gt;-->
+<!--        <div id="post-list">-->
+<!--            <div class="container">-->
+<!--                <table class="post-table">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th scope="col" class="th-num">번호</th>-->
+<!--                            <th scope="col" class="th-title">제목</th>-->
+<!--                            <th scope="col" class="th-viewCount">조회수</th>-->
+<!--                            <th scope="col" class="th-name">작성자</th>-->
+<!--                            <th scope="col" class="th-date">등록일</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr th:each="post : ${list}" th:if="${post.active == true} or ${loginInfo != null and loginInfo.userId == post.userId}">-->
+<!--                            <td th:text="${post.postId}"></td>-->
+<!--                            <th>-->
+<!--                                <a th:href="@{post(postId=${post.postId})}" th:text="${post.title}"></a>-->
+<!--                            </th>-->
+<!--                            <td th:text="${post.viewCount}"></td>-->
+<!--                            <td th:text="${post.name}"></td>-->
+<!--                            <td th:text="${post.updatedAt}"></td>-->
+<!--                        </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div class="container">-->
+<!--                <a href="/writeForm" th:if="${loginInfo != null}">글쓰기</a>-->
+<!--            </div>-->
+<!--            <div class="container">-->
+<!--                <span th:each="n : ${#numbers.sequence(1, pageCount)}"><a th:href="@{/(page=${n})}" th:text="${n}"></a></span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+<!--</body>-->
+
+<!--</html>-->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판 목록보기</title>
-    <link rel="stylesheet" href="post.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 헤더 영역 */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2.5em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* 로그인 정보 영역 */
+        .login-info {
+            background-color: white;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .login-info .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .login-info span {
+            font-size: 14px;
+        }
+
+        .login-info_user {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .login-info a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .login-info a:hover {
+            background-color: #667eea;
+            color: white;
+        }
+
+        /* 게시글 목록 영역 */
+        .post-list-section {
+            padding: 40px 0;
+        }
+
+        .post-table-wrapper {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .post-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .post-table thead {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .post-table th {
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .post-table tbody tr {
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.2s;
+        }
+
+        .post-table tbody tr:hover {
+            background-color: #f8f9ff;
+        }
+
+        .post-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .post-table td {
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .post-table .th-num {
+            width: 80px;
+        }
+
+        .post-table .th-title {
+            width: auto;
+            text-align: left;
+        }
+
+        .post-table .th-viewCount {
+            width: 100px;
+        }
+
+        .post-table .th-name {
+            width: 150px;
+        }
+
+        .post-table .th-date {
+            width: 180px;
+        }
+
+        .post-table tbody td:nth-child(2) {
+            text-align: left;
+        }
+
+        .post-table a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .post-table a:hover {
+            color: #667eea;
+        }
+
+        /* 버튼 영역 */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 페이징 영역 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .pagination a {
+            display: inline-block;
+            padding: 8px 14px;
+            background-color: white;
+            color: #667eea;
+            text-decoration: none;
+            border: 1px solid #667eea;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .pagination a:hover {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .pagination a.active {
+            background-color: #667eea;
+            color: white;
+        }
+
+        /* 빈 목록 메시지 */
+        .empty-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 1.8em;
+            }
+
+            .post-table th,
+            .post-table td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+
+            .th-viewCount,
+            .th-date {
+                display: none;
+            }
+
+            .post-table tbody td:nth-child(3),
+            .post-table tbody td:nth-child(5) {
+                display: none;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .pagination {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <section class="post">
-        <div class="page-title">
-            <div class="container">
-                <h3>글 목록보기</h3>
-            </div>
+<!-- 헤더 -->
+<div class="page-header">
+    <div class="container">
+        <h1>📋 게시판</h1>
+        <p>자유롭게 글을 작성하고 공유해보세요</p>
+    </div>
+</div>
+
+<!-- 로그인 정보 -->
+<div class="login-info">
+    <div class="container">
+            <span class="login-info_user" th:if="${loginInfo != null}">
+                👤 <span th:text="${loginInfo.name}"></span>님
+            </span>
+        <span class="login-info_logout" th:if="${loginInfo != null}">
+                <a href="/logout">로그아웃</a>
+            </span>
+        <span class="login-info_login" th:if="${loginInfo == null}">
+                <a href="/loginform">로그인</a>
+            </span>
+        <span class="login-info_join" th:if="${loginInfo == null}">
+                <a href="/userRegForm">회원가입</a>
+            </span>
+    </div>
+</div>
+
+<!-- 게시글 목록 -->
+<section class="post-list-section">
+    <div class="container">
+        <div class="post-table-wrapper">
+            <table class="post-table">
+                <thead>
+                <tr>
+                    <th class="th-num">번호</th>
+                    <th class="th-title">제목</th>
+                    <th class="th-viewCount">조회수</th>
+                    <th class="th-name">작성자</th>
+                    <th class="th-date">등록일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${list}"
+                    th:if="${post.active == true} or ${loginInfo != null and loginInfo.userId == post.userId}">
+                    <td th:text="${post.postId}"></td>
+                    <td>
+                        <a th:href="@{/post(postId=${post.postId})}" th:text="${post.title}"></a>
+                        <span th:if="${!post.active}" style="color: #999; font-size: 12px;"> 🔒</span>
+                    </td>
+                    <td th:text="${post.viewCount}"></td>
+                    <td th:text="${post.name}"></td>
+                    <td th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(list)}">
+                    <td colspan="5" class="empty-message">
+                        등록된 게시글이 없습니다.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="login-info">
-            <div class="container">
-                <span class="login-info_user" th:if="${loginInfo != null}">
-                    <span th:text="${loginInfo.name}"></span>
-                </span>
-                <span class="login-info_logout" th:if="${loginInfo != null}">
-                    <a href="/logout">로그아웃</a>
-                </span>
-                <span class="login-info_login" th:if="${loginInfo == null}">
-                    <a href="/loginform">로그인</a>
-                </span>
-                <span class="login-info_join" th:if="${loginInfo == null}">
-                    <a href="/userRegForm">회원가입</a>
-                </span>
+        <!-- 버튼 영역 -->
+        <div class="action-buttons">
+            <div class="pagination">
+                    <span th:each="n : ${#numbers.sequence(1, pageCount)}">
+                        <a th:href="@{/(page=${n})}"
+                           th:text="${n}"
+                           th:classappend="${n == currentPage} ? 'active' : ''"></a>
+                    </span>
+            </div>
+            <div>
+                <a href="/writeForm" th:if="${loginInfo != null}" class="btn">✏️ 글쓰기</a>
             </div>
         </div>
-
-        <!-- post list area -->
-        <div id="post-list">
-            <div class="container">
-                <table class="post-table">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="th-num">번호</th>
-                            <th scope="col" class="th-title">제목</th>
-                            <th scope="col" class="th-viewCount">조회수</th>
-                            <th scope="col" class="th-name">작성자</th>
-                            <th scope="col" class="th-date">등록일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="post : ${list}" th:if="${post.active == true} or ${loginInfo != null and loginInfo.userId == post.userId}">
-                            <td th:text="${post.postId}"></td>
-                            <th>
-                                <a th:href="@{post(postId=${post.postId})}" th:text="${post.title}"></a>
-                            </th>
-                            <td th:text="${post.viewCount}"></td>
-                            <td th:text="${post.name}"></td>
-                            <td th:text="${post.updatedAt}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="container">
-                <a href="/writeForm" th:if="${loginInfo != null}">글쓰기</a>
-            </div>
-            <div class="container">
-                <span th:each="n : ${#numbers.sequence(1, pageCount)}"><a th:href="@{/(page=${n})}" th:text="${n}"></a></span>
-            </div>
-        </div>
-    </section>
+    </div>
+</section>
 </body>
 
 </html>
