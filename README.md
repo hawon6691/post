@@ -1,7 +1,6 @@
 # 📌 Project Name
 
-간단한 프로젝트 설명을 여기에 작성하세요.  
-(예: Spring Boot 기반 웹 게시판 시스템)
+Spring Boot 기반 웹 게시판 시스템
 
 ---
 
@@ -9,7 +8,6 @@
 - 🧩 모듈형 구조 (Controller, DTO, DAO, Service 계층)
 - 🌐 데이터베이스 연동 (MySQL, MariaDB 지원)
 - 🎨 기본 템플릿 제공 (회원가입, 로그인, 글 작성, 상세보기 등)
-- 🔒 인증/인가 (세션 관리 포함)
 - 🧪 테스트 및 배포 워크플로우 내장
 
 ---
@@ -39,8 +37,8 @@ project-root/
 
 ```bash
 # 프로젝트 클론
-git clone https://github.com/username/project-name.git
-cd project-name
+git clone https://github.com/hawon6691/post.git
+cd post
 
 # 빌드
 gradle build
