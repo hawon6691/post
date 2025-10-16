@@ -14,6 +14,7 @@ Spring Boot 기반 웹 게시판 시스템
 
 ## 📂 Project Structure
 
+```
 project-root/ 
 ┣ 📂 src 
 ┃ ┣ 📂 main
@@ -22,7 +23,7 @@ project-root/
 ┃ ┗ 📂 test # 테스트 코드 
 ┣ build.gradle 
 ┗ README.md
-
+```
 
 ---
 
