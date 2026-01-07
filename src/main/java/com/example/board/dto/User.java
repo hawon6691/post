@@ -1,5 +1,8 @@
 package com.example.board.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,9 +16,19 @@ import java.time.LocalDateTime;
 @ToString
 public class User {
     private int userId;
+
+    @NotBlank(message = "Name is required")
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 4, max = 100, message = "Password must be at least 4 characters")
     private String password;
+
     private String profileImage;
     private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
